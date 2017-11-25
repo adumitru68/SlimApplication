@@ -6,7 +6,7 @@
  * Time: 12:42 PM
  */
 
-namespace Qpdb\SlimApplication\Di;
+namespace Qpdb\SlimApplication;
 
 
 use Qpdb\SlimApplication\Config\ConfigService;
