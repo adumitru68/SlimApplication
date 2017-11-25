@@ -14,10 +14,7 @@ use Qpdb\SlimApplication\Config\ConfigService;
 class RouterDetails
 {
 
-
-	const API_ROUTER = 'api';
-	const ADMIN_ROUTER = 'admin';
-	const DEFAULT_ROUTER = 'site';
+	const DEFAULT_ROUTER = '__qpdb_empty_router__';
 
 	/**
 	 * @var RouterDetails
@@ -30,46 +27,71 @@ class RouterDetails
 	private $uri;
 
 	/**
+	 * @var array
+	 */
+	private $routers;
+
+	/**
 	 * @var string
 	 */
-	private $routeType;
+	private $routerType = false;
+
+	/**
+	 * @var ConfigService
+	 */
+	private $config;
 
 
 	public function __construct()
 	{
+		$this->config = ConfigService::getInstance();
 		$this->initRouter();
 	}
 
 	public function initRouter()
 	{
-		$this->uri = trim( explode( '?', $_SERVER[ 'REQUEST_URI' ] )[ 0 ], '/' );
-		$this->uri = preg_replace('/(\/+)/','/',$this->uri);
+
+		$this->routers = $this->readRouters();
+		$this->uri = rtrim( explode( '?', $_SERVER[ 'REQUEST_URI' ] )[ 0 ], '/' ) . '/';
 		$this->calculateRouteType();
 	}
 
+	private function readRouters()
+	{
+		$routers = [];
+		foreach ( $this->config->getProperty( 'use-routers' ) as $routerName => $routerUri )
+			$routers[ $routerName ] = rtrim( $routerUri, '/' ) . '/';
+
+		return $routers;
+	}
 
 	private function calculateRouteType()
 	{
-		$type = explode('/', $this->uri)[0];
-		switch ($type) {
-			case self::API_ROUTER:
-				$this->routeType = self::API_ROUTER;
-				break;
-			case self::ADMIN_ROUTER:
-				$this->routeType = self::ADMIN_ROUTER;
-				break;
-			default:
-				$this->routeType = self::DEFAULT_ROUTER;
-				break;
+		$routersMatches = [];
+		foreach ( $this->routers as $routerName => $routerUrl ) {
+			if ( $this->matches( $routerUrl ) )
+				$routersMatches[ $routerName ] = count( explode( '/', $routerUrl ) );
 		}
+
+		if(count($routersMatches))
+			$this->routerType = array_keys( $routersMatches, max( $routersMatches ) )[0];
 	}
+
+	private function matches( $routerUrl )
+	{
+		if ( strpos( $this->uri, $routerUrl ) === 0 )
+			return true;
+
+		return false;
+	}
+
 
 	/**
 	 * @return string
 	 */
-	public function getRouteType()
+	public function getRouterType()
 	{
-		return $this->routeType;
+		return $this->routerType;
 	}
 
 	/**
@@ -77,15 +99,7 @@ class RouterDetails
 	 */
 	public function getRoutesFile()
 	{
-		return ConfigService::getInstance()->getProperty( 'routes.' . $this->routeType );
-	}
-
-	/**
-	 * @return string
-	 */
-	public function getUri()
-	{
-		return $this->uri;
+		return ConfigService::getInstance()->getProperty( 'routes.' . $this->routerType );
 	}
 
 	/**
@@ -93,9 +107,10 @@ class RouterDetails
 	 */
 	public static function getInstance()
 	{
-		if (self::$instance === null){
+		if ( self::$instance === null ) {
 			self::$instance = new self();
-		} else {
+		}
+		else {
 			self::$instance->initRouter();
 		}
 

@@ -5,23 +5,29 @@ use Qpdb\SlimApplication\Router\RouterService;
 use Interop\Container\ContainerInterface;
 use Slim\App;
 
+const QPDB_ROUTER_API = 'apiRouter';
+const QPDB_ROUTER_ADMIN = 'adminRouter';
+const QPDB_ROUTER_DEFAULT = 'defaultRouter';
+const QPDB_ROUTER_API_V1= 'apiRouterV1';
+
 return [
 
-	'routes' => [
-		RouterDetails::API_ROUTER => __DIR__ . '/routes/api.php',
-		RouterDetails::ADMIN_ROUTER => __DIR__ . '/routes/admin.php',
-		RouterDetails::DEFAULT_ROUTER => __DIR__ . '/routes/site.php'
+	'use-routers' => [
+		QPDB_ROUTER_API => '/api/',
+		QPDB_ROUTER_API_V1 => '/api/v1/',
+		QPDB_ROUTER_ADMIN => '/admin/',
+		QPDB_ROUTER_DEFAULT => '/'
 	],
 
-	'routes-url' => [
-		RouterDetails::API_ROUTER => '/api/',
-		RouterDetails::ADMIN_ROUTER => '/admin/',
-		RouterDetails::DEFAULT_ROUTER => '/',
+	'routes' => [
+		QPDB_ROUTER_API => __DIR__ . '/routes/api.php',
+		QPDB_ROUTER_ADMIN => __DIR__ . '/routes/admin.php',
+		QPDB_ROUTER_DEFAULT => __DIR__ . '/routes/site.php'
 	],
 
 	'response-headers' => [
 
-		RouterDetails::API_ROUTER => [
+		QPDB_ROUTER_API => [
 			'Access-Control-Allow-Origin' => '*',
 			'Access-Control-Allow-Headers' => 'X-Requested-With, Content-Type, Accept, Origin, Authorization',
 			'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
@@ -29,7 +35,7 @@ return [
 			'Content-Type' => 'application/json; charset=UTF-8'
 		],
 
-		RouterDetails::ADMIN_ROUTER => [
+		QPDB_ROUTER_ADMIN => [
 			'Access-Control-Allow-Origin' => '*',
 			'Access-Control-Allow-Headers' => 'X-Requested-With, Content-Type, Accept, Origin, Authorization',
 			'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
@@ -37,7 +43,7 @@ return [
 			'Content-Type' => 'text/html; charset=UTF-8'
 		],
 
-		RouterDetails::DEFAULT_ROUTER => [
+		QPDB_ROUTER_DEFAULT => [
 			'Access-Control-Allow-Origin' => '*',
 			'Access-Control-Allow-Headers' => 'X-Requested-With, Content-Type, Accept, Origin, Authorization',
 			'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
@@ -87,8 +93,8 @@ return [
 			return new \Slim\Handlers\Error( $c->get( 'settings' )[ 'displayErrorDetails' ] );
 		},
 
-		'routerScope' => function() {
-			return RouterDetails::getInstance()->getRouteType();
+		'routerType' => function() {
+			return RouterDetails::getInstance()->getRouterType();
 		},
 
 	]
