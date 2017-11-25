@@ -24,7 +24,6 @@ class CategoriesController
 	public function __construct()
 	{
 		//$this->configService = $configService;
-
 	}
 
 

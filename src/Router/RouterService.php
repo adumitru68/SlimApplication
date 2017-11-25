@@ -6,7 +6,6 @@ namespace Qpdb\SlimApplication\Router;
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
-use Qpdb\SlimApplication\Middleware\RouteValidation;
 use Slim\App;
 
 class RouterService
