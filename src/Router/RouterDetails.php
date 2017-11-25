@@ -41,6 +41,17 @@ class RouterDetails
 	 */
 	private $config;
 
+	/**
+	 * @var array
+	 */
+	private $defaultResponseConfig = [
+		'Access-Control-Allow-Origin' => '*',
+		'Access-Control-Allow-Headers' => 'X-Requested-With, Content-Type, Accept, Origin, Authorization',
+		'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+		'Allow' => 'GET, POST, PUT, DELETE, OPTIONS',
+		'Content-Type' => 'application/json; charset=UTF-8'
+	];
+
 
 	public function __construct()
 	{
@@ -100,6 +111,17 @@ class RouterDetails
 	public function getRoutesFile()
 	{
 		return ConfigService::getInstance()->getProperty( 'routes.' . $this->routerType );
+	}
+
+	/**
+	 * @return array
+	 */
+	public function getResponseHeaderConfigArray()
+	{
+		return array_merge(
+			$this->defaultResponseConfig,
+			ConfigService::getInstance()->getProperty('response-headers.' . $this->routerType )
+		);
 	}
 
 	/**

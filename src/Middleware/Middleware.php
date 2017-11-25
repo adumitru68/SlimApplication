@@ -59,6 +59,9 @@ abstract class Middleware
 
 	abstract protected function before();
 
-	abstract protected function after();
+	protected function after()
+	{
+
+	}
 
 }

@@ -43,14 +43,13 @@ class RouterService
 	protected function initialize()
 	{
 
-		/**
-		 * Use the PSR 7 $response object
-		 */
 		$this->app->add( function( ServerRequestInterface $request, ResponseInterface $response, callable $next ) {
-			return $next( $request, $response );
+			/** @var ResponseInterface $response */
+			$response = $next( $request, $response );
+			foreach (RouterDetails::getInstance()->getResponseHeaderConfigArray() as $key => $value )
+				$response = $response->withHeader($key, $value);
+			return $response;
 		} );
-
-		//$this->app->add( RouteValidation::class );
 
 		/** @noinspection PhpIncludeInspection */
 		$loadRoutesFunction = require RouterDetails::getInstance()->getRoutesFile();

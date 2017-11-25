@@ -23,8 +23,4 @@ class RouteValidation extends Middleware
 			throw new NotFoundException( $this->request, $this->response );
 	}
 
-	protected function after()
-	{
-		// TODO: Implement after() method.
-	}
 }
