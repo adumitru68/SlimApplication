@@ -68,6 +68,12 @@ class CategoriesController
 
 	}
 
+	public function login( Request $request, Response $response, array $args )
+    {
+        var_dump($args);
+        return $response;
+    }
+
 	public function contact( Request $request, Response $response, array $args )
     {
         return $response->getBody()->write('contact route');

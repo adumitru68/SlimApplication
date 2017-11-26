@@ -34,7 +34,7 @@ return [
 		],
 
 		QPDB_ROUTER_DEFAULT => [
-			'Content-Type' => 'text/html; charset=UTF-8',
+			'Content-Type' => 'text/html; charset=UTF-8'
 		]
 
 	],
@@ -64,7 +64,7 @@ return [
 		},
 
 		'notFoundHandler' => function() {
-			return new \Slim\Handlers\NotFound();
+			return new \Qpdb\SlimApplication\Handlers\SlimApplicationNotFound( null );
 		},
 
 		'notAllowedHandler' => function() {
