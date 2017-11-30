@@ -48,6 +48,8 @@ class CategoriesController
 			throw new NotFoundException($request, $response);
         }
 
+        var_dump($request->getHeaderLine('Authorization'));
+
 
 		if($name == 'admin')
 			return $response->withRedirect('/categs/login/',301);

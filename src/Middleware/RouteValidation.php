@@ -19,6 +19,9 @@ class RouteValidation extends Middleware
 	 */
 	protected function before()
 	{
+//		if ( empty( $this->request->getAttribute( 'route' ) ) )
+//			throw new NotFoundException( $this->request, $this->response );
+
 		if ( 0 === strpos( $this->routeUrl, '//' ) )
 			throw new NotFoundException( $this->request, $this->response );
 	}

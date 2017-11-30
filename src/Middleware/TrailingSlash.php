@@ -63,7 +63,7 @@ class TrailingSlash
 				return $response->withRedirect( (string)$path, 301 );
 			}
 			else {
-				return $next( $request->withUri( $uri ), $response );
+				return $next( $request->withUri( $uri->withPath($path) ), $response );
 			}
 		}
 

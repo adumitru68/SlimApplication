@@ -6,7 +6,6 @@ use Slim\App;
 
 return function( App $app, ContainerInterface $container ) {
 
-	$app->add( new \Qpdb\SlimApplication\Middleware\TrailingSlash( true ));
 
 	$app->get( '/', function( $request, $response ) use ( $container ) {
 		return $response->getBody()->write( $this->routerType );
@@ -22,6 +21,8 @@ return function( App $app, ContainerInterface $container ) {
 		CategoriesController::class . ':login'
 	);
 
+	$app->add( new \Qpdb\SlimApplication\Middleware\TrailingSlash( true ) );
 	$app->add( \Qpdb\SlimApplication\Middleware\RouteValidation::class );
+
 
 };

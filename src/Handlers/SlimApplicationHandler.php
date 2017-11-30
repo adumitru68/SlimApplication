@@ -52,10 +52,14 @@ abstract class SlimApplicationHandler
 	{
 		$this->contentType = RouterDetails::getInstance()->getResponseHeaderConfigArray()['Content-Type'];
 
+		if($request->getMethod() === 'OPTIONS')
+			$this->contentType = 'text/plain; charset=UTF-8';
+
 		$body = new Body(fopen('php://temp', 'r+'));
 		$body->write($this->getBodyContent());
 
-		return $response->withStatus($this->statusCode)
+		return $response
+			->withStatus($this->statusCode)
 			->withHeader('Content-Type', $this->contentType )
 			->withBody($body);
 	}
