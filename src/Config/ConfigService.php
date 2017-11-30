@@ -26,6 +26,7 @@ final class ConfigService
 	/**
 	 * ConfigService constructor.
 	 * @param string|bool $pathToConfig
+	 * @throws ConfigException
 	 */
 	public function __construct( $pathToConfig = null )
 	{
@@ -53,6 +54,7 @@ final class ConfigService
 
 	/**
 	 * @return array
+	 * @throws ConfigException
 	 */
 	public function getSlimSettings()
 	{
@@ -62,6 +64,7 @@ final class ConfigService
 	/**
 	 * @param string|null $type
 	 * @return array|string
+	 * @throws ConfigException
 	 */
 	public function getRoutes( $type = null )
 	{

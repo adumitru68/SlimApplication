@@ -9,6 +9,7 @@
 namespace Qpdb\SlimApplication;
 
 
+use Qpdb\SlimApplication\Config\ConfigException;
 use Qpdb\SlimApplication\Config\ConfigService;
 use Qpdb\SlimApplication\Router\RouterService;
 use Jgut\Slim\PHPDI\Container;
@@ -35,6 +36,8 @@ class SlimApplicationDI
 	/**
 	 * @param string $moduleName
 	 * @return mixed
+	 * @throws \DI\DependencyException
+	 * @throws \DI\NotFoundException
 	 */
 	public static function instance( $moduleName )
 	{
@@ -44,6 +47,9 @@ class SlimApplicationDI
 	/**
 	 * @param bool $newInstance
 	 * @return RouterService
+	 * @throws ConfigException
+	 * @throws \DI\DependencyException
+	 * @throws \DI\NotFoundException
 	 */
 	public static function routerService( $newInstance = false )
 	{
