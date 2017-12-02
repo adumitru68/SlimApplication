@@ -27,6 +27,7 @@ class SlimApplicationDI
 	/**
 	 * @param string $moduleName
 	 * @return mixed
+	 * @throws ConfigException
 	 */
 	public static function singleton( $moduleName )
 	{
@@ -38,6 +39,7 @@ class SlimApplicationDI
 	 * @return mixed
 	 * @throws \DI\DependencyException
 	 * @throws \DI\NotFoundException
+	 * @throws ConfigException
 	 */
 	public static function instance( $moduleName )
 	{
@@ -61,6 +63,7 @@ class SlimApplicationDI
 
 	/**
 	 * @return Container
+	 * @throws ConfigException
 	 */
 	public static function getContainer()
 	{
