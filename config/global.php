@@ -64,11 +64,11 @@ return [
 		},
 
 		'notFoundHandler' => function() {
-			return new \Qpdb\SlimApplication\Handlers\SlimApplicationNotFound( null );
+			return new \Qpdb\SlimApplication\Handlers\SlimAppNotFound( null );
 		},
 
 		'notAllowedHandler' => function() {
-			return new \Slim\Handlers\NotAllowed();
+			return new \Qpdb\SlimApplication\Handlers\SlimAppNotAllowed( null );
 		},
 
 		'phpErrorHandler' => function( ContainerInterface $c ) {

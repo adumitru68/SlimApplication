@@ -2,34 +2,29 @@
 /**
  * Created by PhpStorm.
  * User: Adrian Dumitru
- * Date: 11/26/2017
- * Time: 1:04 PM
+ * Date: 12/5/2017
+ * Time: 3:32 AM
  */
 
 namespace Qpdb\SlimApplication\Handlers;
 
 
-class SlimApplicationNotFound extends SlimApplicationHandler
+class SlimAppNotFound extends SlimAppHandler
 {
 
-	/**
-	 * @var string
-	 */
-	private $content;
-
-	public function __construct( $content = null )
+	public function __construct( $htmlContent = null )
 	{
+		parent::__construct( $htmlContent );
 		$this->statusCode = ResponseStatusCodes::HTTP_NOT_FOUND;
 		$this->message = ResponseStatusCodes::$statusTexts[ $this->statusCode ];
-		$this->content = $content;
 	}
 
-	public function renderHtmlOutput()
+	protected function renderHtmlOutput()
 	{
-		if ( !empty( $this->content ) )
-			return $this->content;
+		if ( empty( $this->htmlContent ) )
+			return $this->getDefaultContent();
 
-		return $this->getDefaultContent();
+		return $this->htmlContent;
 	}
 
 	private function getDefaultContent()
@@ -70,7 +65,7 @@ class SlimApplicationNotFound extends SlimApplicationHandler
         <a href='/'>Visit the Home Page</a>
         </body>
         </html>
-        <?php
+		<?php
 
 		$html = ob_get_contents();
 		ob_clean();

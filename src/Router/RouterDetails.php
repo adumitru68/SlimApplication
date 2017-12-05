@@ -44,12 +44,17 @@ class RouterDetails
 	/**
 	 * @var array
 	 */
+	private $responseHeaderConfigArray;
+
+	/**
+	 * @var array
+	 */
 	private $defaultResponseConfig = [
 		'Access-Control-Allow-Origin' => '*',
 		'Access-Control-Allow-Headers' => 'X-Requested-With, Content-Type, Accept, Origin, Authorization',
 		'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
 		'Allow' => 'GET, POST, PUT, DELETE, OPTIONS',
-		'Content-Type' => 'application/json; charset=UTF-8'
+		'Content-Type' => 'text/html; charset=UTF-8'
 	];
 
 
@@ -84,8 +89,8 @@ class RouterDetails
 				$routersMatches[ $routerName ] = count( explode( '/', $routerUrl ) );
 		}
 
-		if(count($routersMatches))
-			$this->routerType = array_keys( $routersMatches, max( $routersMatches ) )[0];
+		if ( count( $routersMatches ) )
+			$this->routerType = array_keys( $routersMatches, max( $routersMatches ) )[ 0 ];
 	}
 
 	private function matches( $routerUrl )
@@ -107,21 +112,35 @@ class RouterDetails
 
 	/**
 	 * @return string
+	 * @throws \Qpdb\SlimApplication\Config\ConfigException
 	 */
 	public function getRoutesFile()
 	{
-		return ConfigService::getInstance()->getProperty( 'routes.' . $this->routerType );
+		return $this->config->getProperty( 'routes.' . $this->routerType );
 	}
 
 	/**
 	 * @return array
+	 * @throws \Qpdb\SlimApplication\Config\ConfigException
 	 */
 	public function getResponseHeaderConfigArray()
 	{
-		return array_merge(
-			$this->defaultResponseConfig,
-			ConfigService::getInstance()->getProperty('response-headers.' . $this->routerType )
-		);
+		if ( empty( $this->responseHeaderConfigArray ) )
+			$this->responseHeaderConfigArray = array_merge(
+				$this->defaultResponseConfig,
+				$this->config->getProperty( 'response-headers.' . $this->routerType )
+			);
+
+		return $this->responseHeaderConfigArray;
+	}
+
+	/**
+	 * @return mixed|string
+	 * @throws \Qpdb\SlimApplication\Config\ConfigException
+	 */
+	public function getResponseContentType()
+	{
+		return $this->getResponseHeaderConfigArray()[ 'Content-Type' ];
 	}
 
 	/**
