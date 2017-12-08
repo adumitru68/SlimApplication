@@ -130,7 +130,7 @@ abstract class SlimAppHandler
 
 	protected function renderHtmlOutput()
 	{
-		return $this->htmlContent;
+		return $this->message;
 	}
 
 	protected function renderPlainOutput()

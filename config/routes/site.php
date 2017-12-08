@@ -1,13 +1,14 @@
 <?php
 
 use Interop\Container\ContainerInterface;
+use Psr\Http\Message\ResponseInterface;
 use Qpdb\SlimApplication\Controllers\CategoriesController;
 use Slim\App;
 
 return function( App $app, ContainerInterface $container ) {
 
 
-	$app->get( '/', function( $request, $response ) use ( $container ) {
+	$app->get( '/', function( $request, ResponseInterface $response ) use ( $container ) {
 		return $response->getBody()->write( $this->routerType );
 	} );
 

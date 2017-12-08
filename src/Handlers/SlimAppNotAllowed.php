@@ -36,6 +36,14 @@ class SlimAppNotAllowed extends SlimAppHandler
 		return parent::__invoke( $request, $response, $methods );
 	}
 
+	protected function renderHtmlOutput()
+	{
+		if ( empty( $this->htmlContent ) )
+			return $this->getDefaultContent();
+
+		return $this->htmlContent;
+	}
+
 	private function getDefaultContent()
 	{
 		ob_start();
@@ -43,7 +51,7 @@ class SlimAppNotAllowed extends SlimAppHandler
 		?>
 		<html>
 		<head>
-			<title>Page Not Found</title>
+			<title>Method not allowed</title>
 			<style>
 				body {
 					margin: 0;
@@ -65,12 +73,8 @@ class SlimAppNotAllowed extends SlimAppHandler
 			</style>
 		</head>
 		<body>
-		<h1>Page Not Found</h1>
-		<p>
-			The page you are looking for could not be found. Check the address bar
-			to ensure your URL is spelled correctly. If all else fails, you can
-			visit our home page at the link below.
-		</p>
+		<h1>Method not allowed</h1>
+		<p>Method not allowed. Must be one of: <strong><?=implode(', ', $this->methods)?></strong></p>
 		<a href='/'>Visit the Home Page</a>
 		</body>
 		</html>
