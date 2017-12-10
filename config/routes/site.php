@@ -2,7 +2,7 @@
 
 use Interop\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface;
-use Qpdb\SlimApplication\Controllers\CategoriesController;
+use Qpdb\SlimApplication\Controllers\DemoController;
 use Slim\App;
 
 return function( App $app, ContainerInterface $container ) {
@@ -12,14 +12,14 @@ return function( App $app, ContainerInterface $container ) {
 		return $response->getBody()->write( $this->routerType );
 	} );
 
-	$app->map( [ 'GET', 'POST' ], '/categs/{name:[a-z0-9A-Z_-]+}/[{page:[0-9]+}/]', CategoriesController::class . ':indexAction' )
+	$app->map( [ 'GET', 'POST' ], '/categs/{name:[a-z0-9A-Z_-]+}/[{page:[0-9]+}/]', DemoController::class . ':indexAction' )
 		->add( \Qpdb\SlimApplication\Middleware\ExampleMiddleware::class );
 
-	$app->get( '/details/{name:[a-z0-9A-Z_-]+}/', CategoriesController::class . ':indexAction' );
+	$app->get( '/details/{name:[a-z0-9A-Z_-]+}/', DemoController::class . ':indexAction' );
 
 	$app->get(
 		'/login/{email}/{passw}/',
-		CategoriesController::class . ':login'
+		DemoController::class . ':login'
 	);
 
 	$app->add( new \Qpdb\SlimApplication\Middleware\TrailingSlash( true ) );

@@ -5,6 +5,8 @@ namespace Qpdb\SlimApplication\Controllers;
 
 use Firebase\JWT\JWT;
 use Qpdb\SlimApplication\Config\ConfigService;
+use Qpdb\SlimApplication\SlimApplicationDI;
+use Slim\App;
 use Slim\Exception\NotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
@@ -43,12 +45,18 @@ class CategoriesController
 
 		$postParams = $request->getParsedBodyParam('postVar');
 
+		$testVar = $request->getAttributes();
+
+		var_dump($request->getParsedBody());
+
+
 		if($name == 'aragaz'){
 			//$response = new Response();
 			throw new NotFoundException($request, $response);
         }
 
         var_dump($request->getHeaderLine('Authorization'));
+		var_dump($request->getHeaderLine('Accept'));
 
 
 		if($name == 'admin')
@@ -56,11 +64,11 @@ class CategoriesController
 
 
 		echo "<pre>" . print_r($request->getUri()->getPath(),1) . "</pre>";
-		echo "<pre>" . print_r($_REQUEST,1) . "</pre>";
+		echo "<pre>" . print_r($request->getParams(),1) . "</pre>";
 
 		var_dump($args);
 
-		$response->getBody()->write($name);
+		$response->getBody()->write($name . ' write method');
 		$response->write($page);
 
 //		$response = $response
