@@ -14,8 +14,6 @@ use Qpdb\SlimApplication\Config\ConfigService;
 class RouterDetails
 {
 
-	const DEFAULT_ROUTER = '__qpdb_empty_router__';
-
 	/**
 	 * @var RouterDetails
 	 */
@@ -135,11 +133,15 @@ class RouterDetails
 	}
 
 	/**
+	 * @param bool $onlyContentType
 	 * @return mixed|string
 	 * @throws \Qpdb\SlimApplication\Config\ConfigException
 	 */
-	public function getResponseContentType()
+	public function getResponseContentType( $onlyContentType = false )
 	{
+		if ( $onlyContentType )
+			return explode( ';', trim( $this->getResponseHeaderConfigArray()[ 'Content-Type' ] ) )[ 0 ];
+
 		return $this->getResponseHeaderConfigArray()[ 'Content-Type' ];
 	}
 
@@ -152,7 +154,7 @@ class RouterDetails
 			self::$instance = new self();
 		}
 		else {
-			self::$instance->initRouter();
+			//self::$instance->initRouter();
 		}
 
 		return self::$instance;

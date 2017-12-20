@@ -37,8 +37,8 @@ class DemoController
 	{
 
 		$bodyContent = [];
-
-		$bodyContent[ 'route' ] = $request->getUri()->getPath();
+		$bodyContent['route-name'] = $request->getAttribute('route')->getName();
+		$bodyContent[ 'route-uri' ] = $request->getUri()->getPath();
 		$bodyContent[ 'query' ] = $request->getUri()->getQuery();
 		$bodyContent[ 'args' ] = $args;
 		$bodyContent[ 'params' ] = $request->getParams();
