@@ -153,9 +153,6 @@ class RouterDetails
 		if ( self::$instance === null ) {
 			self::$instance = new self();
 		}
-		else {
-			//self::$instance->initRouter();
-		}
 
 		return self::$instance;
 	}
