@@ -9,7 +9,7 @@
 namespace Qpdb\SlimApplication\Utils;
 
 
-abstract class AppConst
+final class SlimAppConst
 {
 
 	/** Methods */
@@ -31,11 +31,8 @@ abstract class AppConst
 
 
 	/**
-	 * AppConst constructor.
+	 * SlimAppConst constructor.
 	 */
-	protected function __construct()
-	{
-		/** Not instantiable class */
-	}
+	private function __construct() {}
 
 }

@@ -128,11 +128,17 @@ abstract class SlimAppHandler
 		return "<root><message>" . $this->message . "</message></root>";
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function renderHtmlOutput()
 	{
 		return $this->message;
 	}
 
+	/**
+	 * @return string
+	 */
 	protected function renderPlainOutput()
 	{
 		return $this->message;

@@ -35,11 +35,6 @@ class RouterDetails
 	private $routerType = false;
 
 	/**
-	 * @var ConfigService
-	 */
-	private $config;
-
-	/**
 	 * @var array
 	 */
 	private $responseHeaderConfigArray;
@@ -58,13 +53,11 @@ class RouterDetails
 
 	public function __construct()
 	{
-		$this->config = ConfigService::getInstance();
 		$this->initRouter();
 	}
 
 	public function initRouter()
 	{
-
 		$this->routers = $this->readRouters();
 		$this->uri = rtrim( explode( '?', $_SERVER[ 'REQUEST_URI' ] )[ 0 ], '/' ) . '/';
 		$this->calculateRouteType();
@@ -73,7 +66,7 @@ class RouterDetails
 	private function readRouters()
 	{
 		$routers = [];
-		foreach ( $this->config->getProperty( 'use-routers' ) as $routerName => $routerUri )
+		foreach ( ConfigService::getInstance()->getProperty( 'use-routers' ) as $routerName => $routerUri )
 			$routers[ $routerName ] = rtrim( $routerUri, '/' ) . '/';
 
 		return $routers;
@@ -114,7 +107,7 @@ class RouterDetails
 	 */
 	public function getRoutesFile()
 	{
-		return $this->config->getProperty( 'routes.' . $this->routerType );
+		return ConfigService::getInstance()->getProperty( 'routes.' . $this->routerType );
 	}
 
 	/**
@@ -126,7 +119,7 @@ class RouterDetails
 		if ( empty( $this->responseHeaderConfigArray ) )
 			$this->responseHeaderConfigArray = array_merge(
 				$this->defaultResponseConfig,
-				$this->config->getProperty( 'response-headers.' . $this->routerType )
+				ConfigService::getInstance()->getProperty( 'response-headers.' . $this->routerType )
 			);
 
 		return $this->responseHeaderConfigArray;
