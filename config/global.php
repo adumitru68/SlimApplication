@@ -20,7 +20,7 @@ return [
 	'routes' => [
 		QPDB_ROUTER_API => __DIR__ . '/routes/api.php',
 		QPDB_ROUTER_ADMIN => __DIR__ . '/routes/admin.php',
-		QPDB_ROUTER_DEFAULT => __DIR__ . '/routes/site.php'
+		QPDB_ROUTER_DEFAULT => __DIR__ . '/routes/default.php'
 	],
 
 	'response-headers' => [
