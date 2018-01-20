@@ -1,0 +1,33 @@
+{
+	"name": "qpdb/slim_application_di",
+	"type": "library",
+	"description": "Application framework, based on slim-framework and php-di",
+	"keywords": [
+		"php",
+		"framework",
+		"slim-framework",
+		"SlimApplication"
+	],
+	"license": "MIT",
+	"authors": [
+		{
+			"name": "Adrian Dumitru",
+			"email": "adrian.dumitru.68@gmail.com",
+			"role": "Developer"
+		}
+	],
+	"require": {
+		"slim/slim": "^3.1",
+		"slim/php-view": "^2.0",
+		"monolog/monolog": "^1.17",
+		"juliangut/slim-php-di": "^1.2",
+		"tuupola/slim-jwt-auth": "^2.3",
+		"qpdb/query-builder": "^1.0",
+		"slim/csrf": "^0.8.2"
+	},
+	"autoload": {
+		"psr-4": {
+			"Qpdb\\SlimApplication\\": "src/"
+		}
+	}
+}
