@@ -28,12 +28,12 @@ final class ConfigService
 	 * @param string|bool $pathToConfig
 	 * @throws ConfigException
 	 */
-	public function __construct( $pathToConfig = null )
+	protected function __construct( $pathToConfig = null )
 	{
 		if ( !empty( $pathToConfig ) )
 			$this->withConfigPath( $pathToConfig );
-
-		$this->config = require __DIR__ . '/../../config/global.php';
+		else
+			$this->config = require __DIR__ . '/../../config/global.php';
 	}
 
 	/**
