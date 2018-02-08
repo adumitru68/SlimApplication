@@ -5,35 +5,32 @@ use Qpdb\SlimApplication\Router\RouterService;
 use Interop\Container\ContainerInterface;
 use Slim\App;
 
-const QPDB_ROUTER_API = 'apiRouter';
-const QPDB_ROUTER_ADMIN = 'adminRouter';
-const QPDB_ROUTER_DEFAULT = 'defaultRouter';
 
 return [
 
 	'use-routers' => [
-		QPDB_ROUTER_API => '/api/',
-		QPDB_ROUTER_ADMIN => '/admin/',
-		QPDB_ROUTER_DEFAULT => '/'
+		'apiRouter' => '/api/',
+		'adminRouter' => '/admin/',
+		'defaultRouter' => '/'
 	],
 
 	'routes' => [
-		QPDB_ROUTER_API => __DIR__ . '/routes/api.php',
-		QPDB_ROUTER_ADMIN => __DIR__ . '/routes/admin.php',
-		QPDB_ROUTER_DEFAULT => __DIR__ . '/routes/default.php'
+		'apiRouter' => __DIR__ . '/routes/api.php',
+		'adminRouter' => __DIR__ . '/routes/admin.php',
+		'defaultRouter' => __DIR__ . '/routes/default.php'
 	],
 
 	'response-headers' => [
 
-		QPDB_ROUTER_API => [
+		'apiRouter' => [
 			'Content-Type' => 'application/json; charset=UTF-8'
 		],
 
-		QPDB_ROUTER_ADMIN => [
+		'adminRouter' => [
 			'Content-Type' => 'text/html; charset=UTF-8'
 		],
 
-		QPDB_ROUTER_DEFAULT => [
+		'defaultRouter' => [
 			'Content-Type' => 'text/html; charset=UTF-8'
 		]
 
