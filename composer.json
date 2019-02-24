@@ -22,7 +22,7 @@
 		"monolog/monolog": "^1.17",
 		"juliangut/slim-php-di": "^1.2",
 		"tuupola/slim-jwt-auth": "^2.3",
-		"qpdb/query-builder": "^1.0",
+		"qpdb/common": "^1.0",
 		"slim/csrf": "^0.8.2"
 	},
 	"autoload": {

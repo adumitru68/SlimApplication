@@ -8,113 +8,32 @@
 namespace Qpdb\SlimApplication\Config;
 
 
-final class ConfigService
+use Qpdb\Common\Prototypes\Abstracts\AbstractConfiguration;
+use Qpdb\Common\Prototypes\Traits\AsSingletonPrototype;
+
+final class ConfigService extends AbstractConfiguration
 {
 
-
-	/**
-	 * @var ConfigService
-	 */
-	protected static $instance;
-
-	/**
-	 * @var array|mixed
-	 */
-	private $config;
-
-
-	/**
-	 * ConfigService constructor.
-	 * @param string|bool $pathToConfig
-	 * @throws ConfigException
-	 */
-	protected function __construct( $pathToConfig = null )
-	{
-		if ( !empty( $pathToConfig ) )
-			$this->withConfigPath( $pathToConfig );
-		else
-			$this->config = require __DIR__ . '/../../config/global.php';
-	}
-
-	/**
-	 * @param $pathToConfig
-	 * @return $this
-	 * @throws ConfigException
-	 */
-	public function withConfigPath( $pathToConfig )
-	{
-		if ( $pathToConfig && file_exists( $pathToConfig ) )
-			/** @noinspection PhpIncludeInspection */
-			$this->config = require $pathToConfig;
-		else
-			throw new ConfigException( 'Invalid config file path ( path/to/global.php )', ConfigException::ERR_CONFIG_FILE_NOT_FOUND );
-
-		return $this;
-	}
+	use AsSingletonPrototype;
 
 	/**
 	 * @return array
-	 * @throws ConfigException
+	 * @throws \Qpdb\Common\Exceptions\CommonException
 	 */
-	public function getSlimSettings()
-	{
+	public function getSlimSettings() {
 		return $this->getProperty( 'slim-settings' );
 	}
 
 	/**
 	 * @param string|null $type
 	 * @return array|string
-	 * @throws ConfigException
+	 * @throws \Qpdb\Common\Exceptions\CommonException
 	 */
-	public function getRoutes( $type = null )
-	{
+	public function getRoutes( $type = null ) {
 		if ( !empty( $type ) )
 			return $this->getProperty( 'routes' . $type );
 
 		return $this->getProperty( 'routes' );
 	}
 
-	/**
-	 * @param string $propertyName
-	 * @return mixed
-	 * @throws ConfigException
-	 */
-	public function getProperty( $propertyName )
-	{
-		$propertyNameArray = explode( '.', $propertyName );
-		$cursor = $this->config;
-		$recursiveProperties = [];
-		foreach ( $propertyNameArray as $key ) {
-			$recursiveProperties[] = $key;
-			if ( is_array( $cursor ) ) {
-				if ( array_key_exists( $key, $cursor ) ) {
-					$cursor = $cursor[ $key ];
-				}
-				else {
-					throw new ConfigException(
-						'Property ' . implode( '.', $recursiveProperties ) . ' is not found!',
-						ConfigException::ERR_PROPERTY_NOT_FOUND
-					);
-				}
-			}
-			else {
-				return $cursor[ $key ];
-			}
-		}
-
-		return $cursor;
-	}
-
-	/**
-	 * @param null|string $pathToConfig
-	 * @return ConfigService
-	 */
-	public static function getInstance( $pathToConfig = null )
-	{
-		if ( self::$instance === null ) {
-			self::$instance = new self( $pathToConfig );
-		}
-
-		return self::$instance;
-	}
 }

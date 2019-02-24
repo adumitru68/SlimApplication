@@ -9,9 +9,13 @@
 namespace Qpdb\SlimApplication\Controllers;
 
 
+use Psr\Http\Message\RequestInterface;
 use Qpdb\SlimApplication\Router\RouterDetails;
+use Qpdb\SlimApplication\SlimApplicationDI;
+use Slim\App;
 use Slim\Http\Request;
 use Slim\Http\Response;
+use Slim\Route;
 
 class DemoController
 {
@@ -33,7 +37,7 @@ class DemoController
 		$this->contentType = explode( '; ', $this->router->getResponseContentType() )[ 0 ];
 	}
 
-	public function indexAction( Request $request, Response $response, array $args = [] )
+	public function indexAction( RequestInterface $request, Response $response, array $args = [] )
 	{
 
 		$bodyContent = [];
@@ -45,6 +49,16 @@ class DemoController
 		$bodyContent[ 'query-params' ] = $request->getQueryParams();
 		$bodyContent[ $request->getMethod() ] = $request->getParsedBody();
 		$bodyContent[ 'response-content' ] = $this->router->getResponseContentType();
+
+		/** @var Route $attr */
+		$attr =  $request->getAttribute('route');
+
+		$attr->getCallable();
+
+		/** @var App $app */
+		$app = SlimApplicationDI::getContainer()->get(App::class);
+
+
 
 		$response->getBody()->write( $this->prepareBodyContent( $bodyContent ) );
 

@@ -5,8 +5,6 @@ namespace Qpdb\SlimApplication\Controllers;
 
 use Firebase\JWT\JWT;
 use Qpdb\SlimApplication\Config\ConfigService;
-use Qpdb\SlimApplication\SlimApplicationDI;
-use Slim\App;
 use Slim\Exception\NotFoundException;
 use Slim\Http\Request;
 use Slim\Http\Response;
