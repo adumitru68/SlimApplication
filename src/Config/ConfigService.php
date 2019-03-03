@@ -10,11 +10,12 @@ namespace Qpdb\SlimApplication\Config;
 
 use Qpdb\Common\Prototypes\Abstracts\AbstractConfiguration;
 use Qpdb\Common\Prototypes\Traits\AsSingletonPrototype;
+use Qpdb\Common\Prototypes\Traits\AsStoredSettings;
 
 final class ConfigService extends AbstractConfiguration
 {
 
-	use AsSingletonPrototype;
+	use AsSingletonPrototype, AsStoredSettings;
 
 	/**
 	 * @return array

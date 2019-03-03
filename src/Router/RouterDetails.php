@@ -103,7 +103,7 @@ class RouterDetails
 
 	/**
 	 * @return string
-	 * @throws \Qpdb\SlimApplication\Config\ConfigException
+	 * @throws \Qpdb\Common\Exceptions\CommonException
 	 */
 	public function getRoutesFile()
 	{
@@ -112,7 +112,7 @@ class RouterDetails
 
 	/**
 	 * @return array
-	 * @throws \Qpdb\SlimApplication\Config\ConfigException
+	 * @throws \Qpdb\Common\Exceptions\CommonException
 	 */
 	public function getResponseHeaderConfigArray()
 	{
@@ -128,7 +128,7 @@ class RouterDetails
 	/**
 	 * @param bool $onlyContentType
 	 * @return mixed|string
-	 * @throws \Qpdb\SlimApplication\Config\ConfigException
+	 * @throws \Qpdb\Common\Exceptions\CommonException
 	 */
 	public function getResponseContentType( $onlyContentType = false )
 	{
