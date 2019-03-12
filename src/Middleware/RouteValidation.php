@@ -9,9 +9,10 @@
 namespace Qpdb\SlimApplication\Middleware;
 
 
+use Qpdb\SlimApplication\Abstracts\BasicSlimMiddleware;
 use Slim\Exception\NotFoundException;
 
-class RouteValidation extends Middleware
+class RouteValidation extends BasicSlimMiddleware
 {
 
 	/**
@@ -26,4 +27,10 @@ class RouteValidation extends Middleware
 			throw new NotFoundException( $this->request, $this->response );
 	}
 
+	/**
+	 * @return mixed
+	 */
+	protected function after() {
+		// TODO: Implement after() method.
+	}
 }

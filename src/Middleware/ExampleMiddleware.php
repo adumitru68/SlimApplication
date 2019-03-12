@@ -9,7 +9,9 @@
 namespace Qpdb\SlimApplication\Middleware;
 
 
-class ExampleMiddleware extends Middleware
+use Qpdb\SlimApplication\Abstracts\BasicSlimMiddleware;
+
+class ExampleMiddleware extends BasicSlimMiddleware
 {
 
 	protected function before()

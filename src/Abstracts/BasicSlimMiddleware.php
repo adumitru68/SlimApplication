@@ -9,21 +9,19 @@
 namespace Qpdb\SlimApplication\Abstracts;
 
 
-use Psr\Http\Message\RequestInterface;
-use Psr\Http\Message\ResponseInterface;
-use Psr\Http\Message\ServerRequestInterface;
 use Slim\Http\Request;
+use Slim\Http\Response;
 
-abstract class AbstractMiddleware
+abstract class BasicSlimMiddleware
 {
 
 	/**
-	 * @var ServerRequestInterface
+	 * @var Request
 	 */
 	protected $request;
 
 	/**
-	 * @var ResponseInterface
+	 * @var Response
 	 */
 	protected $response;
 
@@ -32,13 +30,14 @@ abstract class AbstractMiddleware
 	 */
 	protected $routeUrl;
 
+
 	/**
-	 * @param ServerRequestInterface $request
-	 * @param ResponseInterface      $response
-	 * @param callable               $next
-	 * @return ResponseInterface
+	 * @param Request  $request
+	 * @param Response $response
+	 * @param callable $next
+	 * @return Response
 	 */
-	public function __invoke( RequestInterface $request, ResponseInterface $response, callable $next ) {
+	public function __invoke( Request $request, Response $response, callable $next ) {
 		$this->request = $request;
 		$this->response = $response;
 		$this->routeUrl = $request->getUri()->getPath();
