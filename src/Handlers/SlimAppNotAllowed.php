@@ -8,82 +8,72 @@
 
 namespace Qpdb\SlimApplication\Handlers;
 
-
 use Psr\Http\Message\ResponseInterface;
 use Psr\Http\Message\ServerRequestInterface;
+use Slim\Handlers\NotAllowed;
+use Slim\Http\Body;
+use UnexpectedValueException;
 
-class SlimAppNotAllowed extends SlimAppHandler
-{
+class SlimAppNotAllowed extends NotAllowed {
 
-	public function __construct( $htmlContent = null )
-	{
-		parent::__construct( $htmlContent );
-		$this->statusCode = ResponseStatusCodes::HTTP_METHOD_NOT_ALLOWED;
-		$this->message = ResponseStatusCodes::$statusTexts[ $this->statusCode ];
+	/**
+	 * @var string
+	 */
+	protected $htmlContent;
+
+	/**
+	 * SlimAppNotFound constructor.
+	 * @param string|null $htmlContent
+	 */
+	public function __construct( $htmlContent = null ) {
+		$this->htmlContent = $htmlContent;
 	}
 
 	/**
-	 * @param ServerRequestInterface $request
-	 * @param ResponseInterface $response
-	 * @param array $methods
+	 * Invoke error handler
+	 *
+	 * @param  ServerRequestInterface $request  The most recent Request object
+	 * @param  ResponseInterface      $response The most recent Response object
+	 * @param  string[]               $methods  Allowed HTTP methods
+	 *
 	 * @return ResponseInterface
+	 * @throws UnexpectedValueException
 	 */
-	public function __invoke( ServerRequestInterface $request, ResponseInterface $response, $methods = [] )
+	public function __invoke(ServerRequestInterface $request, ResponseInterface $response, array $methods)
 	{
-		$this->methods = $methods;
-		$this->message .= '. Must be one of: ' . implode( ', ', $methods );
+		if ($request->getMethod() === 'OPTIONS') {
+			$status = 200;
+			$contentType = 'text/plain';
+			$output = $this->renderPlainOptionsMessage($methods);
+		} else {
+			$status = 405;
+			$contentType = $this->determineContentType($request);
+			switch ($contentType) {
+				case 'application/json':
+					$output = $this->renderJsonNotAllowedMessage($methods);
+					break;
 
-		return parent::__invoke( $request, $response, $methods );
+				case 'text/xml':
+				case 'application/xml':
+					$output = $this->renderXmlNotAllowedMessage($methods);
+					break;
+
+				case 'text/html':
+					$output = $this->htmlContent ?: $this->renderHtmlNotAllowedMessage($methods);
+					break;
+				default:
+					throw new UnexpectedValueException('Cannot render unknown content type ' . $contentType);
+			}
+		}
+
+		$body = new Body(fopen('php://temp', 'r+'));
+		$body->write($output);
+		$allow = implode(', ', $methods);
+
+		return $response
+			->withStatus($status)
+			->withHeader('Content-type', $contentType)
+			->withHeader('Allow', $allow)
+			->withBody($body);
 	}
-
-	protected function renderHtmlOutput()
-	{
-		if ( empty( $this->htmlContent ) )
-			return $this->getDefaultContent();
-
-		return $this->htmlContent;
-	}
-
-	private function getDefaultContent()
-	{
-		ob_start();
-
-		?>
-		<html>
-		<head>
-			<title>Method not allowed</title>
-			<style>
-				body {
-					margin: 0;
-					padding: 30px;
-					font: 12px/1.5 Helvetica, Arial, Verdana, sans-serif;
-				}
-
-				h1 {
-					margin: 0;
-					font-size: 48px;
-					font-weight: normal;
-					line-height: 48px;
-				}
-
-				strong {
-					display: inline-block;
-					width: 65px;
-				}
-			</style>
-		</head>
-		<body>
-		<h1>Method not allowed</h1>
-		<p>Method not allowed. Must be one of: <strong><?=implode(', ', $this->methods)?></strong></p>
-		<a href='/'>Visit the Home Page</a>
-		</body>
-		</html>
-		<?php
-
-		$html = ob_get_contents();
-		ob_clean();
-
-		return $html;
-	}
-
 }

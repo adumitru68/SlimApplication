@@ -39,17 +39,6 @@ class RouterDetails
 	 */
 	private $responseHeaderConfigArray;
 
-	/**
-	 * @var array
-	 */
-	private $defaultResponseConfig = [
-		'Access-Control-Allow-Origin' => '*',
-		'Access-Control-Allow-Headers' => 'X-Requested-With, Content-Type, Accept, Origin, Authorization',
-		'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
-		'Allow' => 'GET, POST, PUT, DELETE, OPTIONS',
-		'Content-Type' => 'text/html; charset=UTF-8'
-	];
-
 
 	public function __construct()
 	{
@@ -116,9 +105,9 @@ class RouterDetails
 	 */
 	public function getResponseHeaderConfigArray()
 	{
-		if ( empty( $this->responseHeaderConfigArray ) )
+		if ( null === $this->responseHeaderConfigArray )
 			$this->responseHeaderConfigArray = array_merge(
-				$this->defaultResponseConfig,
+				ConfigService::getInstance()->getProperty('response-headers.allRouters'),
 				ConfigService::getInstance()->getProperty( 'response-headers.' . $this->routerType )
 			);
 

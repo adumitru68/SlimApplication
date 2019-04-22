@@ -32,6 +32,14 @@ return [
 
 		'defaultRouter' => [
 			'Content-Type' => 'text/html; charset=UTF-8'
+		],
+
+		'allRouters' => [
+			'Access-Control-Allow-Origin' => '*',
+			'Access-Control-Allow-Headers' => 'X-Requested-With, Content-Type, Accept, Origin, Authorization',
+			'Access-Control-Allow-Methods' => 'GET, POST, PUT, DELETE, OPTIONS',
+			'Allow' => 'GET, POST, PUT, DELETE, OPTIONS',
+			'Content-Type' => 'text/html; charset=UTF-8'
 		]
 
 	],

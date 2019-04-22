@@ -45,10 +45,10 @@ class RouterService
 
 		$this->app->add( function( ServerRequestInterface $request, ResponseInterface $response, callable $next ) {
 			/** @var ResponseInterface $response */
-			$response = $next( $request, $response );
 			foreach (RouterDetails::getInstance()->getResponseHeaderConfigArray() as $key => $value )
 				$response = $response->withHeader($key, $value);
-			return $response;
+
+			return $next( $request, $response );
 		} );
 
 		/** @noinspection PhpIncludeInspection */
